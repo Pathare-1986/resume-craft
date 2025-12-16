@@ -29,13 +29,13 @@ const ExperienceForm = ({ data, onChange }) => {
       <div className="flex items-center justify-between">
         <div>
           <h3 className="flex items-center gap-2 text-lg font-semibold text-gray-900">
-            Professoinal Experience
+            Professional Experience
           </h3>
           <p className="text-sm text-gray-500">Add your job experience</p>
         </div>
         <button
           onClick={addExperience}
-          className="flex items-center gap-2 px-3 py-1 text-sm bg-purple-100 text-purple-700 rounded hover:bg-purple-200 transition-colors"
+          className="flex items-center gap-2 px-3 py-1 text-sm bg-green-100 text-green-700 rounded hover:bg-green-200 transition-colors rounded-lg"
         >
           <Plus size={4} /> Add Experience
         </button>
@@ -105,7 +105,7 @@ const ExperienceForm = ({ data, onChange }) => {
                 />
               </div>
 
-              <label>
+              <label className="flex items-center gap-2">
                 <input
                   type="checkbox"
                   checked={experience.is_current || false}
@@ -125,10 +125,8 @@ const ExperienceForm = ({ data, onChange }) => {
 
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <label className="flex items-center gap-1 px-2 py-1 text-xs bg-purple-100 text-purple-700 rounded hover:bg-purple-200 transition-colors disabled:opacity-50">
-                    Job Description
-                  </label>
-                  <button>
+                  <label>Job Description</label>
+                  <button className="flex items-center gap-1 px-2 py-1 text-xs bg-purple-100 text-purple-700 rounded hover:bg-purple-200 transition-colors disabled:opacity-50">
                     <Sparkle className="w-3 h-3" />
                     Enhance with AI
                   </button>
