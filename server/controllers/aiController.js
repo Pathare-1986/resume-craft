@@ -1,5 +1,16 @@
 import ai from "../config/ai.js";
 import Resume from "../models/resume.js";
+import Bottleneck from "bottleneck";
+
+// Implement Bottleneck rate limiter to handle OpenAI API rate limits
+const limiter = new Bottleneck({
+  maxConcurrent: 1, // Only one request at a time
+  minTime: 1100, // At least 1100ms between requests
+});
+
+const limitedOpenAIRequest = limiter.wrap(async (fn) => {
+  return await fn();
+});
 
 // controller for enhancing a resume's professional summary
 // POST : /api/ai/enhance-pro-sum
@@ -63,6 +74,9 @@ export const enhanceJobDescription = async (req, res) => {
   }
 };
 
+
+
+
 // controller for uploading a resume to the database
 // POST: /api/ai/upload-resume
 export const uploadResume = async (req, res) => {
@@ -121,20 +135,22 @@ export const uploadResume = async (req, res) => {
     `;
 
     const response = await ai.chat.completions.create({
-      model: process.env.OPENAI_MODEL,
-      messages: [
-        {
-          role: "system",
-          content: systemPrompt,
-        },
-        {
-          role: "user",
-          content: userPrompt,
-        },
-      ],
-      response_format: { type: "json_object" },
-    });
-    const extractedData = response.choices[0].message;
+        model: process.env.OPENAI_MODEL,
+        messages: [
+          {
+            role: "system",
+            content: systemPrompt,
+          },
+          {
+            role: "user",
+            content: userPrompt,
+          },
+        ],
+        response_format: { type: "json_object" },
+      })
+    ;
+
+    const extractedData = response.choices[0].message.content;
     const parseData = JSON.parse(extractedData);
     const newResume = await Resume.create({
       userId,
@@ -143,6 +159,10 @@ export const uploadResume = async (req, res) => {
     });
     res.json({ resumeId: newResume._id });
   } catch (error) {
+    console.error("Upload Resume Controller Error:", error);
+    if (error.status === 429) {
+      return res.status(429).json({ message: "Rate limit exceeded. Please try again later." });
+    }
     return res.status(400).json({ message: error.message });
   }
 };

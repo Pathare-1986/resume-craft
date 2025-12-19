@@ -32,7 +32,7 @@ export const registerUser = async (req,res) => {
         })
 
         // return success message
-        const token = generateToken(newUser._id);
+        const token = await generateToken(newUser._id);
         newUser.password = undefined;
         return res.status(201).json({message:"User created successfully",token,user:newUser})
 
@@ -59,7 +59,7 @@ export const loginUser = async (req,res) => {
         }
 
         // return success message
-        const token = generateToken(user._id);
+        const token = await generateToken(user._id);
         user.password = undefined;
         return res.status(200).json({message:"Login successfully",token,user})
 

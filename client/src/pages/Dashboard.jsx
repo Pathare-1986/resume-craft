@@ -10,6 +10,10 @@ import {
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { dummyResumeData } from "../assets/assets";
+import { useSelector } from "react-redux";
+import api from "../configs/api";
+import toast from "react-hot-toast";
+import pdfToText from "react-pdftotext";
 
 const Dashboard = () => {
   const [allResumes, setAllResumes] = useState([]);
@@ -18,6 +22,8 @@ const Dashboard = () => {
   const [title, setTitle] = useState("");
   const [resume, setResume] = useState(null);
   const [editResumeId, setEditResumeId] = useState("");
+  const { user, token } = useSelector((state) => state.auth);
+  const [isLoading, setIsLoading] = useState(false);
 
   const colors = ["#dc2626", "#d97706", "#9333ea", "#0284c7", "#16a34a"];
   const navigate = useNavigate();
@@ -31,15 +37,41 @@ const Dashboard = () => {
   };
 
   const createResume = async (e) => {
-    e.preventDefault();
-    setShowCreateResume(false);
-    navigate(`/app/builder/res123`);
+    try {
+      e.preventDefault();
+      const { data } = await api.post(
+        "/api/resumes/create",
+        { title },
+        { headers: { Authorization: token } }
+      );
+      setAllResumes([...allResumes, data.resume]);
+      setTitle("");
+      setShowCreateResume(false);
+      navigate(`/app/builder/${data.resume._id}`);
+    } catch (error) {
+      toast.error(error?.response?.data?.message || error.message);
+    }
   };
 
+  // Add logging to debug resumeText and title
   const uploadResume = async (e) => {
     e.preventDefault();
-    setShowUploadResume(false);
-    navigate(`/app/builder/res123`);
+    try {
+      const resumeText = await pdfToText(resume);
+      const { data } = await api.post(
+        "/api/ai/upload-resume",
+        { title, resumeText },
+        { headers: { Authorization: token } }
+      );
+      setTitle("");
+      setResume(null);
+      setShowUploadResume(false);
+      navigate(`/app/builder/${data.resumeId}`);
+    } catch (error) {
+      console.error("Upload Resume Error:", error);
+      toast.error(error?.response?.data?.message || error.message);
+    }
+    setIsLoading(true);
   };
 
   const deleteResume = async (resumeId) => {
