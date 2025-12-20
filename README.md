@@ -4,7 +4,7 @@ ResumeCraft is a modern web application designed to help users create profession
 
 ## Live Demo
 
-Access the live application here: [Live Application](#)
+Access the live application here: [Live Application](https://resume-craft-git-main-pathare-1986s-projects.vercel.app/)
 
 ---
 
