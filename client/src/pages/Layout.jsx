@@ -6,7 +6,7 @@ import Loader from "../components/Loader";
 import Login from "./Login";
 
 const Layout = () => {
-  const { token, loading } = useSelector(state => state.auth);
+  const { token, loading } = useSelector((state) => state.auth);
   if (loading) {
     return <Loader />;
   }

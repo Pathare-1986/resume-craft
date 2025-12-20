@@ -68,7 +68,7 @@ const EducationForm = ({ data, onChange }) => {
                   type="text"
                   placeholder="Institution Name"
                   className="px-3 py-2 text-sm "
-                  value={education.education || ""}
+                  value={education.institution || ""}
                   onChange={(e) =>
                     updateEducation(index, "institution", e.target.value)
                   }

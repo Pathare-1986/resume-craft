@@ -16,7 +16,8 @@ const resumeSchema = new Schema(
       profession: { type: String, default: "" },
       phone: { type: String, default: "" },
       location: { type: String, default: "" },
-      linkdin: { type: String, default: "" },
+      linkedin: { type: String, default: "" },
+      email: { type: String, default: "" },
       website: { type: String, default: "" },
     },
     experience: [

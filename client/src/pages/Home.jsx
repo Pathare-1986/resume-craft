@@ -6,17 +6,16 @@ import Testimonials from "../components/home/Testimonials";
 import CallToAction from "../components/home/CallToAction";
 import Footer from "../components/home/Footer";
 
-
 const Home = () => {
   return (
     <div>
       <Banner />
       <Hero />
-      <Features/>
-      <Testimonials/>
-      <CallToAction/>
-      <Footer/>
-      </div>
+      <Features />
+      <Testimonials />
+      <CallToAction />
+      <Footer />
+    </div>
   );
 };
 

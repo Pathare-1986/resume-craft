@@ -5,7 +5,7 @@ import Title from "./Title";
 const Features = () => {
   return (
     <div
-      className="flex flex-col items-center my-10 scroll-mt-12"
+      className="flex flex-col items-center my-10 scroll-mt-12 mt-0"
       id="features"
       style={{marginBottom:"350px"}}
     >

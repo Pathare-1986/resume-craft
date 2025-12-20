@@ -21,6 +21,7 @@ const ProjectForm = ({ data, onChange }) => {
     updated[index] = { ...updated[index], [field]: value };
     onChange(updated);
   };
+
   return (
     <div>
       <div className="flex items-center justify-between">
