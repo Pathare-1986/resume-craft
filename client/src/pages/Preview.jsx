@@ -15,7 +15,7 @@ const Preview = ({}) => {
   const loadResume = async () => {
     try {
       
-      const { data } = await api.get("/api/resumes/public"+resumeId)
+      const { data } = await api.get("/api/resumes/public/"+resumeId)
       setResumeData(data.resume)
 
     } catch (error) {
